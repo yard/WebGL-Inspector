@@ -254,6 +254,11 @@
             var call = version.calls[n];
             if (call.name == "bufferData") {
                 var sourceArray = call.args[1];
+
+                if (version.target = gl.ELEMENT_ARRAY_BUFFER) {
+                    sourceArray = new Uint16Array(sourceArray);
+                }
+
                 if (sourceArray.constructor == Number) {
                     // Size - create an empty array
                     data = new ArrayBuffer(sourceArray);
