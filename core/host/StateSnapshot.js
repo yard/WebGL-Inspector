@@ -1,5 +1,8 @@
-(function () {
-    var host = glinamespace("gli.host");
+define([
+        '../shared/Utilities',
+    ], function (
+        util
+    ) {
 
     var stateParameters = null;
     function setupStateParameters(gl) {
@@ -160,7 +163,7 @@
     StateSnapshot.prototype.clone = function () {
         var cloned = {};
         for (var k in this) {
-            cloned[k] = gli.util.clone(this[k]);
+            cloned[k] = util.clone(this[k]);
         }
         return cloned;
     };
@@ -188,8 +191,15 @@
             gl.activeTexture(gl.TEXTURE0 + n);
             if (this["TEXTURE_BINDING_2D_" + n]) {
                 gl.bindTexture(gl.TEXTURE_2D, getTargetValue(this["TEXTURE_BINDING_2D_" + n]));
-            } else {
+            }
+            if (this["TEXTURE_BINDING_CUBE_MAP_" + n]) {
                 gl.bindTexture(gl.TEXTURE_CUBE_MAP, getTargetValue(this["TEXTURE_BINDING_CUBE_MAP_" + n]));
+            }
+            if (this["TEXTURE_BINDING_3D_" + n]) {
+                gl.bindTexture(gl.TEXTURE_3D, getTargetValue(this["TEXTURE_BINDING_3D_" + n]));
+            }
+            if (this["TEXTURE_BINDING_2D_ARRAY_" + n]) {
+                gl.bindTexture(gl.TEXTURE_2D_ARRAY, getTargetValue(this["TEXTURE_BINDING_2D_ARRAY_" + n]));
             }
         }
 
@@ -304,5 +314,5 @@
         gl.activeTexture(this[gl.ACTIVE_TEXTURE]);
     };
 
-    host.StateSnapshot = StateSnapshot;
-})();
+    return StateSnapshot;
+});
